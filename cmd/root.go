@@ -74,7 +74,9 @@ func init() {
 	clientcmd.BindOverrideFlags(&overrides, RootCmd.PersistentFlags(), kflags)
 	clientConfig = clientcmd.NewInteractiveDeferredLoadingClientConfig(loadingRules, &overrides, os.Stdin)
 
-	RootCmd.PersistentFlags().Set("logtostderr", "true")
+	if err := RootCmd.PersistentFlags().Set("logtostderr", "true"); err != nil {
+		fmt.Printf("failed to set logtostderr flag: %+v", err.Error())
+	}
 }
 
 // RootCmd is the root of cobra subcommand tree
