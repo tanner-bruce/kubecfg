@@ -86,7 +86,10 @@ var RootCmd = &cobra.Command{
 	SilenceErrors: true,
 	SilenceUsage:  true,
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-		goflag.CommandLine.Parse([]string{})
+		if err := goflag.CommandLine.Parse([]string{}); err != nil {
+			fmt.Printf("failed to parse goflag arguments (this shouldn't happen): %+v", err.Error())
+		}
+
 		flags := cmd.Flags()
 		out := cmd.OutOrStderr()
 		log.SetOutput(out)
